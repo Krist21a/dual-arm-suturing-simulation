@@ -2,6 +2,14 @@
 
 基于 MATLAB 与 CoppeliaSim 的双臂单针间断缝合运动学演示：右臂持针入针、左臂接针并沿圆弧拔针，再交回右臂。采用小幅近端运动与末端腕部控制，包含双目记录和碰撞检查。
 
+## 演示视频与关键帧
+
+[观看双臂缝合仿真演示视频（MP4）](docs/media/single_interrupted_suture_stereo.mp4) · [下载原始视频](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/media/single_interrupted_suture_stereo.mp4)
+
+下图展示初始持针、下降入针、圆弧穿针、左臂接针、右臂撤离、沿弧拔针以及交回右臂的关键阶段；各阶段均展示双目视图。
+
+![双臂缝合仿真关键帧：从右臂持针入针到双臂交接及拔针完成](docs/media/suture_keyframes.png)
+
 ## 运行
 
 1. 安装支持 Java 的 MATLAB 与 CoppeliaSim（交付环境使用 CoppeliaSim 4.10）。
@@ -20,6 +28,7 @@
 - `work/suture_review/`：轨迹、规划与开发审查脚本。
 - `work/scene_inspection/`：规划辅助函数与场景录制 Lua 源码。
 - `output/reports/`：原有联调验证报告。
+- `docs/media/`：演示视频与关键帧图。
 
 Python 文件是原开发环境中的辅助脚本，保留了原 Windows 绝对路径；使用前需按本机调整路径并安装对应依赖（如 NumPy、SciPy、CoppeliaSim ZeroMQ 客户端、Pillow、imageio-ffmpeg）。正常 MATLAB 演示不依赖这些 Python 脚本。部分辅助脚本使用未随仓库提供的临时视频帧或运行日志。
 
