@@ -1,0 +1,3 @@
+sensor	result	pad_min_border_px	needle_min_border_px	width	height
+left	PASS	216.6586084750677	353.25580346457457	1080	960
+right	PASS	216.65860847506372	353.2558034645326	1080	960

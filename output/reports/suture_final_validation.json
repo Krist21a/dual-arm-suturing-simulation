@@ -1,0 +1,69 @@
+{
+  "result": "PASS",
+  "checked_frames": 563,
+  "collision_events": 0,
+  "fixed_pose_max_drift": 0.0,
+  "entry_point_m": [
+    -0.022,
+    0.345,
+    0.5905
+  ],
+  "exit_point_m": [
+    -0.038,
+    0.345,
+    0.5905
+  ],
+  "entry_error_mm": 0.05655353244321383,
+  "exit_error_mm": 0.056624250868331595,
+  "joint7_max_mm": [
+    94.60754692086849,
+    80.1846179542905
+  ],
+  "joint9_abs_max_deg": [
+    84.99999999999696,
+    77.42044853764446
+  ],
+  "proximal_max_delta_deg": {
+    "L": 7.408026226713573,
+    "R": 5.429709367169428
+  },
+  "jaw_logic": "Original: both joint10 and joint11 go to 0.35 rad for open, 0 rad for closed. No geometry/axis/sign/yaw change.",
+  "table_surface_z_m": 0.57535001,
+  "pad_bottom_z_m": 0.5755,
+  "table_model_clearance_mm": 0.14999,
+  "needle_radius_mm": 11.375,
+  "tip_entry_to_exit_rotation_deg": 89.38433961437602,
+  "additional_exposure_deg": 20.0,
+  "extraction_rotation_deg": 170.0,
+  "thread_model": "Kinematic drawn strand, not deformable tissue/thread mechanics. No knot tying.",
+  "visibility": [
+    [
+      "left",
+      "PASS",
+      216.6586084750677,
+      353.25580346457457,
+      1080,
+      960
+    ],
+    [
+      "right",
+      "PASS",
+      216.65860847506372,
+      353.2558034645326,
+      1080,
+      960
+    ]
+  ],
+  "measured_insertion_rotation_deg": 89.38410740555581,
+  "arc_radial_error_mm": 0.0006706157412127156,
+  "initial_tcp_orientation_difference_deg": 0.10446956944700835,
+  "initial_tip_above_entry_mm": 40,
+  "entry_on_holding_arm_base_side": true,
+  "extracted_needle_min_tissue_clearance_mm": 19.024946130875243,
+  "final_state": "Right jaws closed, left jaws open; paused with needle attached to right TCP.",
+  "final_gui_state": "PAUSED",
+  "final_needle_parent": "/UR5/L0_respondable_TOOL2/instrument_tcp_arm2",
+  "saved_scene_sha256": "b567f36d1b021fe5e0d6039e98f01127e123ce6ce92219c2142aea9efc9acb50",
+  "scene_controller_matches_source": true,
+  "stereo_thread_visible": true
+}

@@ -1,0 +1,27 @@
+单个间断缝合：实际联调验证通过
+
+方向：针在右臂所属的近侧垫子上方就位，入针 x=-0.022 m，出针 x=-0.038 m。
+双目图像中表现为近侧（画面左侧）入针、对侧（画面右侧）出针。
+初始两 TCP 世界朝向差 0.10447°，针尖位于入针点正上方 40 mm。
+两片夹爪保持原场景几何、关节轴、符号和控制命令逻辑。
+
+实际检查 563 帧，双臂之间及器械与训练垫/桌面网格碰撞为 0。
+穿针实测转角 89.38411°，圆弧半径误差最大 0.00067 mm。
+入针点误差 0.05655 mm，出针点误差 0.05662 mm。
+两次交接位置/姿态连续，详见 suture_handoff_validation.tsv。
+左/右 joint7 最大值 94.608/80.185 mm。
+左/右 joint9 绝对值最大 85.000/77.420°。
+近端关节相对工作姿态最大变化：左 7.408°，右 5.430°。
+训练垫与双目相机位姿变化为 0；双目完整包含训练垫与针操作区域。
+训练垫保留原桌面位置及约 0.15 mm 的原模型间隙，没有抬高或移位。
+完成后暂停于右臂持针、左臂松开撤离的状态。
+
+修改：main_suture.m；output/scenes/dual_DVRK_ARM_suture.ttt；work/scene_inspection/record_suture_stereo.lua。
+新增：RunSutureWristCycle.m；work/suture_review/wrist_plan.json 及规划/网格审查/录制/验证脚本。
+更新：output/reports/suture_* 验证报告；新增 output/videos/single_interrupted_suture_stereo.mp4 与关键帧预览。
+原 main_suture.m 和场景保存在 work/suture_review/baseline。
+运行依赖：主程序、RunSutureWristCycle.m、work/suture_review/wrist_plan.json、
+output/reports/suture_plan_validation.json，以及含 SutureController 的最终场景。
+
+范围：这是针运动与交接的运动学演示。缝线为可视化曲线，不含组织变形、线张力或打结力学。
+碰撞报告覆盖两臂之间、器械与训练垫/桌面。

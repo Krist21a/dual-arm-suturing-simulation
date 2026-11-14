@@ -1,0 +1,6 @@
+item	x	y	z	extra
+task_pose_world_m	-0.030000	0.345000	0.575500	validated
+table_y_world_min_m	0.000000	0.292400	0.000000	from table bounds
+pad_y_world_min_m	0.000000	0.305000	0.000000	12.6 mm inside table edge
+vision_left	1080	960	0	output/previews/vision_left_table_safe.png
+vision_right	1080	960	0	output/previews/vision_right_table_safe.png

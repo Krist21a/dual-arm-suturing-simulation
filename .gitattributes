@@ -1,0 +1,4 @@
+* text=auto
+*.ttt binary
+*.jar binary
+work/suture_review/wrist_plan.json -text

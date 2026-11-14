@@ -1,0 +1,32 @@
+{
+  "file": "D:\\仿真环境\\output\\videos\\single_interrupted_suture_stereo.mp4",
+  "frames_per_eye": 575,
+  "fps": 20,
+  "duration_seconds": 28.75,
+  "width": 2160,
+  "height": 1080,
+  "codec": "H.264",
+  "decode_test": "PASS",
+  "phase_last_frames": {
+    "initial": 1,
+    "right_prepare": 46,
+    "right_contact": 70,
+    "right_insert": 135,
+    "right_expose": 180,
+    "left_prepare": 225,
+    "left_grasp": 249,
+    "left_close": 261,
+    "right_to_left": 262,
+    "right_open": 274,
+    "right_retreat": 298,
+    "left_extract": 422,
+    "left_handoff": 446,
+    "right_pregrasp": 470,
+    "right_regrasp": 494,
+    "right_close": 506,
+    "left_to_right": 507,
+    "left_open": 519,
+    "left_retreat": 543,
+    "complete": 575
+  }
+}
