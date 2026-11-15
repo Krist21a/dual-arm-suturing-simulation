@@ -14,7 +14,7 @@ function initSutureAudit()
     audit.tip=H('/Needle/needle_tip')
     audit.task=H('/customizableTable/SutureTask')
     audit.roots={H('/UR5'),H('/500____[1]/UR5')}
-    audit.joints={};audit.tcps={};audit.wrists={};audit.collections={};audit.tools={}
+    audit.joints={};audit.tcps={};audit.wrists={};audit.collections={};audit.tools={};audit.baseTcpMatrices={};audit.yawPivots={}
     sim.setObjectParent(audit.needle,-1,true)
     for a,root in ipairs({'/UR5','/500____[1]/UR5'})do
         local joints={}
@@ -25,7 +25,13 @@ function initSutureAudit()
         sim.setJointInterval(joints[7],false,{0,.16})
         sim.setJointInterval(joints[9],false,{-math.rad(85),math.rad(170)})
         local tcp=H(root..'/L0_respondable_TOOL2/instrument_tcp_arm'..a)
-        audit.tcps[a]=tcp;audit.wrists[a]=sim.getObjectParent(tcp)
+        local wrist=sim.getObjectParent(tcp);audit.wrists[a]=wrist
+        audit.baseTcpMatrices[a]=sim.getObjectMatrix(tcp,wrist)
+        audit.yawPivots[a]=sim.getObjectPosition(joints[10],wrist)
+        local grasp=sim.getObject('/suture_grasp_arm'..a,{noError=true})
+        if grasp<0 then grasp=sim.createDummy(.001);sim.setObjectAlias(grasp,'suture_grasp_arm'..a);sim.setObjectParent(grasp,wrist,false);sim.setObjectInt32Param(grasp,sim.objintparam_visibility_layer,256)end
+        audit.tcps[a]=grasp
+        sim.setObjectMatrix(grasp,audit.baseTcpMatrices[a],wrist)
         local shapes=sim.getObjectsInTree(audit.roots[a],sim.sceneobject_shape,0)
         audit.collections[a]=collection(shapes)
         local toolShapes=sim.getObjectsInTree(H(root..'/L0_respondable_TOOL2'),sim.sceneobject_shape,0)
@@ -42,11 +48,27 @@ function initSutureAudit()
     audit.table=collection(furniture)
     audit.fixed={audit.task,H('/visionSensor_left'),H('/visionSensor_right')};audit.fixedPoses={}
     for i,h in ipairs(audit.fixed)do audit.fixedPoses[i]=sim.getObjectPose(h,-1)end
+    audit.selfPairs={};audit.rails={}
+    for a,root in ipairs({'/UR5','/500____[1]/UR5'})do
+        local links={};local pairs={}
+        for j=1,7 do links[j]=collection({H(root..'/link'..j..'_visible')})end
+        for j=1,7 do for k=j+3,7 do pairs[#pairs+1]={links[j],links[k]}end end
+        local module=collection(sim.getObjectsInTree(H(root..'/arm_ref'),sim.sceneobject_shape,0))
+        for j=1,3 do pairs[#pairs+1]={links[j],module}end
+        audit.selfPairs[a]=pairs;audit.rails[a]={}
+        for _,name in ipairs({'left','right','front','rear'})do audit.rails[a][name]=H('/collision_a'..a..'_fixed_rail_'..name)end
+    end
     audit.frame=0
     return true
 end
 function setSutureArm(a,q)
     for i=1,11 do sim.setJointPosition(audit.joints[a][i],q[i])end
+    -- Original opposing jaw axes are unchanged. Equal raw commands keep
+    -- the original opening; their differential adds common physical yaw.
+    local yaw=(q[10]-q[11])/2;local c,s=math.cos(yaw),math.sin(yaw)
+    local p=audit.yawPivots[a]
+    local m={1,0,0,0,0,c,-s,p[2]-c*p[2]+s*p[3],0,s,c,p[3]-s*p[2]-c*p[3]}
+    sim.setObjectMatrix(audit.tcps[a],sim.multiplyMatrices(m,audit.baseTcpMatrices[a]),audit.wrists[a])
     return sim.getObjectMatrix(audit.tcps[a],-1)
 end
 function setSutureNeedle(matrix,parent)
@@ -75,6 +97,18 @@ function getSutureAudit()
         state.joints[a]={}
         for i,h in ipairs(audit.joints[a])do state.joints[a][i]=sim.getJointPosition(h)end
         state.tcps[a]=sim.getObjectMatrix(audit.tcps[a],-1)
+    end
+    state.posture={}
+    for a,root in ipairs({'/UR5','/500____[1]/UR5'})do
+        local result={collision=0,pair={-1,-1},distance=-1}
+        for _,pair in ipairs(audit.selfPairs[a])do local hit=distance(pair[1],pair[2]);if hit.collision>0 then result=hit;break end end
+        state[a==1 and 'left_self' or 'right_self']=result
+        local p={};for name,h in pairs(audit.rails[a])do p[name]=sim.getObjectPosition(h,-1)end
+        local width,axis={},{};local wn,an=0,0
+        for i=1,3 do width[i]=p.right[i]-p.left[i];axis[i]=p.front[i]-p.rear[i];wn=wn+width[i]^2;an=an+axis[i]^2 end
+        for i=1,3 do width[i]=width[i]/math.sqrt(wn);axis[i]=axis[i]/math.sqrt(an)end
+        local front={width[2]*axis[3]-width[3]*axis[2],width[3]*axis[1]-width[1]*axis[3],width[1]*axis[2]-width[2]*axis[1]}
+        state.posture[a]={elbow=sim.getObjectPosition(audit.joints[a][3],-1),shaft=axis,module_front=front}
     end
     state.arm_arm=distance(audit.collections[1],audit.collections[2])
     state.left_pad=distance(audit.collections[1],audit.pad);state.right_pad=distance(audit.collections[2],audit.pad)
@@ -107,11 +141,15 @@ function updateSutureThread(theta,extracted)
         points[#points+1]=entry
         local sweep=2*math.asin(.008/r)
         local passed=extracted and sweep or math.min(sweep,theta-math.pi)
-        local cz=entry[3]+math.sqrt(r*r-.008*.008)
+        local center=sim.getObjectPosition(H('/customizableTable/SutureTask/NeedleArcCenter'),-1)
+        local u,v={},{};for i=1,3 do u[i]=entry[i]-center[i];v[i]=exit[i]-center[i]end
+        local n={u[2]*v[3]-u[3]*v[2],u[3]*v[1]-u[1]*v[3],u[1]*v[2]-u[2]*v[1]}
+        local len=math.sqrt(n[1]^2+n[2]^2+n[3]^2);for i=1,3 do n[i]=n[i]/len end
+        local cross={n[2]*u[3]-n[3]*u[2],n[3]*u[1]-n[1]*u[3],n[1]*u[2]-n[2]*u[1]}
         for k=1,24 do
-            local sign=entry[1]>exit[1] and 1 or -1
-            local angle=sign*k/24*passed;local x,z=entry[1]+.03,entry[3]-cz
-            points[#points+1]={-.03+math.cos(angle)*x+math.sin(angle)*z,entry[2],cz-math.sin(angle)*x+math.cos(angle)*z}
+            local angle=k/24*passed;local point={}
+            for i=1,3 do point[i]=center[i]+math.cos(angle)*u[i]+math.sin(angle)*cross[i]end
+            points[#points+1]=point
         end
         if passed>=sweep then points[#points+1]={(exit[1]+tail[1])/2,exit[2],math.max(entry[3]+.001,(exit[3]+tail[3])/2-.004)}end
     end

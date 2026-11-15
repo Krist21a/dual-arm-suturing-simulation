@@ -4,3 +4,4 @@
 *.mp4 binary
 *.png binary
 work/suture_review/wrist_plan.json -text
+work/continuous_suture/continuous_plan.json -text

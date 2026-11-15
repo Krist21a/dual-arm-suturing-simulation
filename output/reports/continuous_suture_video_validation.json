@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "frames": 3358,
+  "fps": 20,
+  "duration_seconds": 167.9,
+  "resolution": [
+    1920,
+    1440
+  ],
+  "editing": "None: fixed single camera, direct frame encoding; no overlays, cropping, compositing or speed change",
+  "sha256": "f50a8b83060ea763f8dcaa30c0709d37e87d0220f0d9bd482bd2abff4112ca11"
+}

@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "frames": 3358,
+  "fps": 20,
+  "duration_seconds": 167.9,
+  "resolution": [
+    1920,
+    1440
+  ],
+  "synchronized_motion_frames": 3346,
+  "max_replay_state_difference": 0,
+  "panels": {
+    "left": {
+      "x": 520,
+      "y": 28,
+      "width": 432,
+      "height": 384
+    },
+    "right": {
+      "x": 968,
+      "y": 28,
+      "width": 432,
+      "height": 384
+    }
+  },
+  "processing": "Original full overview with proportional, uncropped stereo insets; no time shift or speed change",
+  "sha256": "5eed52f656e41bed1512e3e2506402c3fb45af358ca86a567fd39d9fdbabcfea",
+  "original_overview_unchanged": true
+}

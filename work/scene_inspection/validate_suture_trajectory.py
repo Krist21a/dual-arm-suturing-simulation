@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 
 
-ROOT = Path(r"D:\仿真环境")
+ROOT = Path(__file__).resolve().parents[2]
 REPORT = ROOT / "output" / "reports" / "suture_trajectory_validation.tsv"
 AUDIT_SOLVER = "coupled"
 

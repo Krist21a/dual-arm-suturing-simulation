@@ -1,0 +1,68 @@
+{
+  "result": "PASS",
+  "stitch_count": 5,
+  "spacing_mm": 3.0,
+  "checked_frames": 3346,
+  "collision_events": 0,
+  "handoffs": [
+    {
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "stitch": 1
+    },
+    {
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "stitch": 1
+    },
+    {
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "stitch": 2
+    },
+    {
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "stitch": 2
+    },
+    {
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "stitch": 3
+    },
+    {
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "stitch": 3
+    },
+    {
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "stitch": 4
+    },
+    {
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "stitch": 4
+    },
+    {
+      "receiver": "L",
+      "max_matrix_change": 1.1102230246251565e-16,
+      "stitch": 5
+    },
+    {
+      "receiver": "R",
+      "max_matrix_change": 2.6020852139652106e-16,
+      "stitch": 5
+    }
+  ],
+  "fixed_pose_max_drift": 0,
+  "needle_step_max_mm": 1.7322452355193045,
+  "needle_step_max_deg": 5.8621269584280284,
+  "needle_plane_max_tilt_deg": 0.0010389886383321367,
+  "completed_thread_arcs": 5,
+  "final_state": "Right holds needle closed; left open and withdrawn; simulation paused",
+  "thread_model": "One continuous kinematic strand with retained tissue arcs and surface bridges. No knot, tension or tissue deformation model.",
+  "plan_sha256": "a90b27cc0e2f9ec575a771b0883c93cb56ecec42d0278c609318173a4526e777",
+  "recorded": false
+}

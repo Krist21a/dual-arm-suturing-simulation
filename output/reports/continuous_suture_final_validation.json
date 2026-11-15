@@ -1,0 +1,180 @@
+{
+  "result": "PASS",
+  "stitch_count": 5,
+  "spacing_mm": 3.0,
+  "checked_frames": 3346,
+  "collision_events": 0,
+  "handoffs": [
+    {
+      "stitch": 1,
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "translation_mm": 1.5716250041522724e-13
+    },
+    {
+      "stitch": 1,
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "translation_mm": 1.9727093536244661e-13
+    },
+    {
+      "stitch": 2,
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "translation_mm": 1.4392978831470298e-13
+    },
+    {
+      "stitch": 2,
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "translation_mm": 1.3206704001701901e-13
+    },
+    {
+      "stitch": 3,
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "translation_mm": 1.7772239894833365e-13
+    },
+    {
+      "stitch": 3,
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "translation_mm": 2.2247786310271854e-13
+    },
+    {
+      "stitch": 4,
+      "receiver": "L",
+      "max_matrix_change": 4.440892098500626e-16,
+      "translation_mm": 1.6424084840128452e-13
+    },
+    {
+      "stitch": 4,
+      "receiver": "R",
+      "max_matrix_change": 2.220446049250313e-16,
+      "translation_mm": 1.2648025775023737e-13
+    },
+    {
+      "stitch": 5,
+      "receiver": "L",
+      "max_matrix_change": 1.1102230246251565e-16,
+      "translation_mm": 1.210334856124346e-13
+    },
+    {
+      "stitch": 5,
+      "receiver": "R",
+      "max_matrix_change": 2.6020852139652106e-16,
+      "translation_mm": 3.039085025061332e-13
+    }
+  ],
+  "fixed_pose_max_drift": 0,
+  "needle_step_max_mm": 1.7322452355193045,
+  "needle_step_max_deg": 5.8621269584280284,
+  "needle_plane_max_tilt_deg": 0.0010389886383321367,
+  "completed_thread_arcs": 5,
+  "final_state": "Right holds needle closed; left open and withdrawn; simulation paused",
+  "thread_model": "One continuous kinematic strand with retained tissue arcs and surface bridges. No knot, tension or tissue deformation model.",
+  "plan_sha256": "a90b27cc0e2f9ec575a771b0883c93cb56ecec42d0278c609318173a4526e777",
+  "recorded": true,
+  "simulation_time_step_s": 0.05,
+  "simulation_elapsed_checked_s": 167.25000000000384,
+  "continuous_time_advancement": "PASS",
+  "proximal_max_change_from_initial_deg": {
+    "L": 2.3500802642511616,
+    "R": 3.190727804237784
+  },
+  "joint_limits": {
+    "L": {
+      "joint7_max_mm": 136.9972941543312,
+      "joint8_abs_max_deg": 95.58469238433707,
+      "joint9_abs_max_deg": 68.15925320421613
+    },
+    "R": {
+      "joint7_max_mm": 119.83824345623543,
+      "joint8_abs_max_deg": 169.1553721440346,
+      "joint9_abs_max_deg": 40.52888010879619
+    }
+  },
+  "stitch_points": [
+    {
+      "index": 1,
+      "entry": [
+        -0.022,
+        0.345,
+        0.5905
+      ],
+      "exit": [
+        -0.038,
+        0.345,
+        0.5905
+      ],
+      "entry_error_mm": 0.00021528058874848037,
+      "exit_error_mm": 0.0002202874838932311
+    },
+    {
+      "index": 2,
+      "entry": [
+        -0.022,
+        0.348,
+        0.5905
+      ],
+      "exit": [
+        -0.038,
+        0.348,
+        0.5905
+      ],
+      "entry_error_mm": 0.0002655346746089806,
+      "exit_error_mm": 0.0005151999692909885
+    },
+    {
+      "index": 3,
+      "entry": [
+        -0.022,
+        0.351,
+        0.5905
+      ],
+      "exit": [
+        -0.038,
+        0.351,
+        0.5905
+      ],
+      "entry_error_mm": 0.0006197813470565862,
+      "exit_error_mm": 0.0008852063535242676
+    },
+    {
+      "index": 4,
+      "entry": [
+        -0.022,
+        0.354,
+        0.5905
+      ],
+      "exit": [
+        -0.038,
+        0.354,
+        0.5905
+      ],
+      "entry_error_mm": 0.0009899411261096599,
+      "exit_error_mm": 0.0012632742806425283
+    },
+    {
+      "index": 5,
+      "entry": [
+        -0.022,
+        0.357,
+        0.5905
+      ],
+      "exit": [
+        -0.038,
+        0.357,
+        0.5905
+      ],
+      "entry_error_mm": 0.0013604331122724282,
+      "exit_error_mm": 0.0016416479422357137
+    }
+  ],
+  "thread_history_monotonic": "PASS",
+  "single_stitch_baseline_unchanged": true,
+  "simulation_model": "Prescribed kinematic joints and rigid following meshes; actual simulation advances every frame; collision detection enabled. Not force-controlled dynamics.",
+  "scene_controller_matches_source": true,
+  "temporary_recording_objects_removed": true,
+  "scene_sha256": "852ac506d4f3520968113bffa3227d5faddc848a62d3865395d004c86407baf4"
+}

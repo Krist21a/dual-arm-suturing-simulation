@@ -1,6 +1,6 @@
 {
   "result": "PASS",
-  "checked_frames": 563,
+  "checked_frames": 590,
   "collision_events": 0,
   "fixed_pose_max_drift": 0.0,
   "entry_point_m": [
@@ -13,27 +13,27 @@
     0.345,
     0.5905
   ],
-  "entry_error_mm": 0.05655353244321383,
-  "exit_error_mm": 0.056624250868331595,
+  "entry_error_mm": 0.00021528058851718248,
+  "exit_error_mm": 0.00022028748366230237,
   "joint7_max_mm": [
-    94.60754692086849,
-    80.1846179542905
+    128.87126399777733,
+    112.4424162409636
   ],
   "joint9_abs_max_deg": [
-    84.99999999999696,
-    77.42044853764446
+    68.15925320421613,
+    39.98818782773243
   ],
   "proximal_max_delta_deg": {
-    "L": 7.408026226713573,
-    "R": 5.429709367169428
+    "L": 1.989448095430135,
+    "R": 2.6507908837346315
   },
-  "jaw_logic": "Original: both joint10 and joint11 go to 0.35 rad for open, 0 rad for closed. No geometry/axis/sign/yaw change.",
+  "jaw_logic": "Original jaw geometry and axes; original equal-command opening is retained. Common physical yaw is superposed on the existing opposing axes.",
   "table_surface_z_m": 0.57535001,
   "pad_bottom_z_m": 0.5755,
   "table_model_clearance_mm": 0.14999,
   "needle_radius_mm": 11.375,
   "tip_entry_to_exit_rotation_deg": 89.38433961437602,
-  "additional_exposure_deg": 20.0,
+  "additional_exposure_deg": 35.0,
   "extraction_rotation_deg": 170.0,
   "thread_model": "Kinematic drawn strand, not deformable tissue/thread mechanics. No knot tying.",
   "visibility": [
@@ -41,7 +41,7 @@
       "left",
       "PASS",
       216.6586084750677,
-      353.25580346457457,
+      353.19558105700014,
       1080,
       960
     ],
@@ -49,21 +49,141 @@
       "right",
       "PASS",
       216.65860847506372,
-      353.2558034645326,
+      353.1955810569582,
       1080,
       960
     ]
   ],
-  "measured_insertion_rotation_deg": 89.38410740555581,
-  "arc_radial_error_mm": 0.0006706157412127156,
-  "initial_tcp_orientation_difference_deg": 0.10446956944700835,
-  "initial_tip_above_entry_mm": 40,
-  "entry_on_holding_arm_base_side": true,
-  "extracted_needle_min_tissue_clearance_mm": 19.024946130875243,
-  "final_state": "Right jaws closed, left jaws open; paused with needle attached to right TCP.",
+  "measured_needle_plane_max_tilt_from_vertical_deg": 0.00032630884858557104,
+  "posture": {
+    "L": {
+      "proximal_max_change_from_actual_initial_deg": [
+        1.453219632374382,
+        0.8105746350092295,
+        1.989448095430135,
+        0.863170375548358,
+        1.0624602218170915,
+        1.8840346976916982
+      ],
+      "initial_change_from_original_deg": [
+        27.199489301268706,
+        -3.6907847356160604,
+        18.352291017298864,
+        -24.68283653081054,
+        -27.733437226846913,
+        -30.512089594506712
+      ],
+      "initial_shaft_axis_world": [
+        0.5932705785902709,
+        0.35979588377128935,
+        -0.7201228663226725
+      ],
+      "shaft_inclination_from_vertical_deg": 43.93537456004061,
+      "roll_range_deg": [
+        -62.02597031696182,
+        94.21502964505646
+      ],
+      "pitch_range_deg": [
+        -65.0,
+        68.15925320421613
+      ],
+      "yaw_range_deg": [
+        -42.52254183255415,
+        33.40938954272731
+      ],
+      "initial_elbow_world_m": [
+        -0.39181742724816226,
+        -0.27450096970630455,
+        0.8698181509053284
+      ],
+      "initial_module_front_world": [
+        0.49258848700254354,
+        0.5452771224404719,
+        0.6782547030545262
+      ],
+      "min_shaft_forward_component": 0.35979588377423233,
+      "min_module_front_forward_component": 0.5036333101243292,
+      "elbow_height_range_m": [
+        0.8652727787952286,
+        0.8727285733867427
+      ],
+      "left_extract_roll_net_deg": 156.24050862056572,
+      "left_extract_pitch_span_deg": 132.3792507519724
+    },
+    "R": {
+      "proximal_max_change_from_actual_initial_deg": [
+        2.0777560577187013,
+        1.256389277427725,
+        2.4372235963293343,
+        1.0504029753308306,
+        0.4983032369764646,
+        2.6507908837346315
+      ],
+      "initial_change_from_original_deg": [
+        -8.85328553426456,
+        -0.8533513963143305,
+        -19.418463959198238,
+        22.326092188378787,
+        13.62477375562828,
+        25.335626895330428
+      ],
+      "initial_shaft_axis_world": [
+        -0.7061779164710403,
+        0.2675879851297265,
+        -0.6555222502042348
+      ],
+      "shaft_inclination_from_vertical_deg": 49.04073839891572,
+      "roll_range_deg": [
+        -169.14516776131333,
+        -72.26712781820355
+      ],
+      "pitch_range_deg": [
+        1.8982201106204852,
+        39.98818782773243
+      ],
+      "yaw_range_deg": [
+        -59.99999999999999,
+        64.6561380362857
+      ],
+      "initial_elbow_world_m": [
+        0.4663794245726863,
+        -0.20978146192790442,
+        0.8942345386702686
+      ],
+      "initial_module_front_world": [
+        -0.4585687810692365,
+        0.532563726282428,
+        0.711400415010316
+      ],
+      "min_shaft_forward_component": 0.24137969232740694,
+      "min_module_front_forward_component": 0.532563726282428,
+      "elbow_height_range_m": [
+        0.8942345386702686,
+        0.900653184245048
+      ],
+      "right_insert_roll_net_deg": 78.7760699185814,
+      "right_insert_pitch_span_deg": 19.520416921671462
+    }
+  },
+  "needle_plane_tilt_deg": 0,
+  "arc_center_m": [
+    -0.03,
+    0.345,
+    0.5985864275832052
+  ],
+  "arc_normal": [
+    0.0,
+    1.0,
+    0.0
+  ],
+  "measured_insertion_rotation_deg": 89.38513671515744,
+  "arc_radial_error_mm": 0.00017945106391831223,
+  "needle_tip_max_depth_mm": 3.2878961930525863,
+  "final_state": "Right grasp frame holds needle, right grip closed, left grip open and withdrawn.",
+  "jaw_mapping": "Existing opposing axes: q10=yaw+grip, q11=-yaw+grip. Original geometry, axes, and equal-command opening are unchanged; grip=0 closed, grip=0.35 open.",
   "final_gui_state": "PAUSED",
-  "final_needle_parent": "/UR5/L0_respondable_TOOL2/instrument_tcp_arm2",
-  "saved_scene_sha256": "b567f36d1b021fe5e0d6039e98f01127e123ce6ce92219c2142aea9efc9acb50",
+  "final_needle_parent": "/UR5/L0_respondable_TOOL2/suture_grasp_arm2",
+  "saved_scene_sha256": "331df0d34b7395ba654bf4e69b646382d8f2db5160d4890292ac61ee37e83dde",
   "scene_controller_matches_source": true,
   "stereo_thread_visible": true
 }

@@ -3,6 +3,8 @@ function RunSutureWristCycle(root)
 % Preserve the delivered joint10/joint11 geometry, axes and control commands.
     planPath=fullfile(root,'work','suture_review','wrist_plan.json');
     plan=jsondecode(fileread(planPath));
+    assert(abs(plan.arcNormal(3))<1e-9 && abs(plan.needle_plane_tilt_deg)<1e-9, ...
+        'Needle plane must be vertical to the pad. Inclined-needle plans are invalid.');
     review=jsondecode(fileread(fullfile(root,'output','reports','suture_plan_validation.json')));
     bytes=fileread(planPath);md=java.security.MessageDigest.getInstance('SHA-256');
     digest=typecast(md.digest(uint8(bytes)),'uint8');sha=lower(reshape(dec2hex(digest,2).',1,[]));
@@ -12,9 +14,9 @@ function RunSutureWristCycle(root)
     assert(sim.getSimulationState()==sim.simulation_stopped,'Stop the previous simulation before running.');
     script=sim.getObject('/customizableTable/SutureTask/SutureController');
     sim.callScriptFunction('initSutureAudit',script);
-    q={plan.initial.L(:).',plan.initial.R(:).'};q{1}(10:11)=.35;
+    q={plan.initial.L(:).',plan.initial.R(:).'};q{1}(10:11)=q{1}(10:11)+.35;
     for a=1:2,sim.callScriptFunction('setSutureArm',script,a,q{a});end
-    Tneedle=plan.calibration.R*GetFKarmDVRK(q{2},11,'R')*plan.relations.R;
+    Tneedle=plan.calibration.R*GetFKSutureWrist(q{2},'R')*plan.relations.R;
     sim.callScriptFunction('setSutureNeedle',script,reshape(Tneedle(1:3,:).',1,[]),2);
     fixed0=sim.callScriptFunction('getSutureAudit',script);
     assert(norm(doubleVector(fixed0.fixed{1}(1:3))-[-.03 .345 .5755])<1e-8,'Pad moved.');
@@ -42,10 +44,10 @@ function RunSutureWristCycle(root)
             assert(all(traj(:,7)>=-1e-8 & traj(:,7)<=.16+1e-8),'joint7 limit');
             assert(all(abs(traj(:,9))<=deg2rad(85)+1e-8),'joint9 limit');
             ref=plan.dock.(phase.arm);ref=ref(:).';
-            assert(all(all(abs(traj(:,1:6)-ref(1:6))<=deg2rad(8)+1e-8)),'Proximal arm range');
+            assert(all(all(abs(traj(:,1:6)-ref(1:6))<=deg2rad(plan.proximal_limit_deg)+1e-8)),'Proximal arm range');
             fprintf('%s: %d poses\n',phase.name,size(traj,1));
             for k=1:size(traj,1)
-                q{a}=traj(k,:);q{a}(10:11)=grip(a);
+                q{a}=traj(k,:);q{a}(10:11)=q{a}(10:11)+grip(a);
                 sim.callScriptFunction('setSutureArm',script,a,q{a});
                 if ~isempty(phase.needleAngles),theta=phase.needleAngles(k);end
                 if strcmp(phase.name,'left_handoff'),extracted=true;end
@@ -69,7 +71,11 @@ function RunSutureWristCycle(root)
     function capture(name,step,target,activeArm)
         sim.callScriptFunction('updateSutureThread',script,theta,extracted);
         client.step();st=sim.callScriptFunction('getSutureAudit',script);
-        checks={'arm_arm','left_pad','right_pad','left_table','right_table'};
+        needleMatrix=reshape(doubleVector(st.needle),4,3).';
+        % The fitted needle lies in its local Y-Z plane. Its world normal
+        % must therefore remain horizontal: the needle stays upright.
+        assert(abs(needleMatrix(3,1))<sind(.5),'Needle plane tilted at %s',name);
+        checks={'arm_arm','left_pad','right_pad','left_table','right_table','left_self','right_self'};
         for ci=1:numel(checks)
             assert(st.(checks{ci}).collision==0,'Collision at %s: %s',name,checks{ci});
         end
@@ -87,7 +93,8 @@ function RunSutureWristCycle(root)
     function jaws(a,target,name)
         start=grip(a);
         for ki=1:12
-            grip(a)=start+(target-start)*ki/12;q{a}(10:11)=grip(a);
+            yaw=(q{a}(10)-q{a}(11))/2;
+            grip(a)=start+(target-start)*ki/12;q{a}(10:11)=[yaw+grip(a),-yaw+grip(a)];
             sim.callScriptFunction('setSutureArm',script,a,q{a});capture(name,ki);
         end
     end

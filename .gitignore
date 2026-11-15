@@ -6,3 +6,10 @@ __pycache__/
 .env.*
 output/reports/*.jsonl
 output/videos/
+work/python_deps/
+work/continuous_suture/raw_frames/
+work/continuous_suture/stereo_frames/
+work/continuous_suture/*progress.json
+work/continuous_suture/mesh_audit.json
+work/continuous_suture/legacy_*.lua
+.venv/

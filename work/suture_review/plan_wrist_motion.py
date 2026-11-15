@@ -1,7 +1,7 @@
 """Constrained task planner; retains the existing FK and jaw-only q10/q11."""
 import sys,json,math
 from pathlib import Path
-ROOT=Path(r'D:\仿真环境')
+ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'work/python_deps'),str(ROOT/'work/scene_inspection')]
 import numpy as np
 from scipy.optimize import least_squares
@@ -63,6 +63,7 @@ def solve(arm,target,q,ref):
         raise RuntimeError(f'{arm} unreachable: {e}, delta={np.degrees(q[:6]-ref[:6])}')
     return q
 if __name__=='__main__':
+    raise SystemExit('Legacy geometry module. Use plan_roll_motion.py for the validated roll-led cycle.')
     approach=needle(0,[0,0,.025]);exitN=needle(sweep+emerge)
     init={'R':approach@np.linalg.inv(rel['R']),'L':exitN@np.linalg.inv(rel['L'])}
     init['L'][:3,3]+=[-.025,.01,.035]

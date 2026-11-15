@@ -1,27 +1,26 @@
-单个间断缝合：实际联调验证通过
+roll 主导单针缝合：实际联调验证
 
-方向：针在右臂所属的近侧垫子上方就位，入针 x=-0.022 m，出针 x=-0.038 m。
-双目图像中表现为近侧（画面左侧）入针、对侧（画面右侧）出针。
-初始两 TCP 世界朝向差 0.10447°，针尖位于入针点正上方 40 mm。
-两片夹爪保持原场景几何、关节轴、符号和控制命令逻辑。
+实跑检查 590 帧，双臂之间、非相邻臂杆及模块自碰撞、器械与垫/桌面碰撞为 0。
+穿针圆弧实测 89.385°；右臂 roll 转动 78.776°。
+拔针左臂 roll 转动 156.241°。
+左/右大臂六关节相对实际初始姿态最大变化：1.989° / 2.651°。
+左/右器械杆相对竖直方向初始倾角：43.935° / 49.041°。
+joint7 左/右最大：128.871 / 112.442 mm。
+joint9 左/右绝对最大：68.159° / 39.988°。
+双臂肘部保持在各自底座外侧、器械杆共同朝前下方、模块正面朝前；具体初始关节变化逐项列于 suture_final_validation.json，未隐藏初始化姿态调整。
 
-实际检查 563 帧，双臂之间及器械与训练垫/桌面网格碰撞为 0。
-穿针实测转角 89.38411°，圆弧半径误差最大 0.00067 mm。
-入针点误差 0.05655 mm，出针点误差 0.05662 mm。
-两次交接位置/姿态连续，详见 suture_handoff_validation.tsv。
-左/右 joint7 最大值 94.608/80.185 mm。
-左/右 joint9 绝对值最大 85.000/77.420°。
-近端关节相对工作姿态最大变化：左 7.408°，右 5.430°。
-训练垫与双目相机位姿变化为 0；双目完整包含训练垫与针操作区域。
-训练垫保留原桌面位置及约 0.15 mm 的原模型间隙，没有抬高或移位。
-完成后暂停于右臂持针、左臂松开撤离的状态。
+训练垫和两相机位姿变化为0；入针点和出针点保持不变。
+针圆弧平面与垫面垂直，目标倾斜0°；所有实际帧偏离竖直最大 0.0003°。圆弧半径11.375 mm，入/出针转角89.384°。
+对应针尖最大进入表面深度约 3.288 mm。这是直立针平面下的圆弧穿针几何。
+两片夹爪几何和轴不改；开合配对不改。在原轴上叠加共同物理偏航，并增加实际夹持坐标系跟随它。
+原固定 instrument_tcp 保留；新增 suture_grasp_arm1/2 用于针夹持与交接。
+两次交接世界位姿连续，详见 suture_handoff_validation.tsv。终态右臂持针、左臂撤离。
 
-修改：main_suture.m；output/scenes/dual_DVRK_ARM_suture.ttt；work/scene_inspection/record_suture_stereo.lua。
-新增：RunSutureWristCycle.m；work/suture_review/wrist_plan.json 及规划/网格审查/录制/验证脚本。
-更新：output/reports/suture_* 验证报告；新增 output/videos/single_interrupted_suture_stereo.mp4 与关键帧预览。
-原 main_suture.m 和场景保存在 work/suture_review/baseline。
-运行依赖：主程序、RunSutureWristCycle.m、work/suture_review/wrist_plan.json、
-output/reports/suture_plan_validation.json，以及含 SutureController 的最终场景。
+主要修改：main_suture.m、RunSutureWristCycle.m、最终场景、audit_runtime.lua，以及录制/验证脚本。
+新增：GetFKSutureWrist.m、plan_roll_motion.py、suture_wrist_kinematics.py、report_roll_validation.py。
+原 GetFKarmDVRK.m / GetIK_armins.m / PlanPath_PoseSequence.m 未修改。
+上一版场景、规划与执行程序备份：work/suture_review/before_roll。
+运行依赖：MATLAB入口/执行程序/GetFKSutureWrist.m、wrist_plan.json、suture_plan_validation.json、含嵌入控制器的最终场景。
 
-范围：这是针运动与交接的运动学演示。缝线为可视化曲线，不含组织变形、线张力或打结力学。
-碰撞报告覆盖两臂之间、器械与训练垫/桌面。
+范围：运动学演示；缝线是可视化曲线，不包含组织变形、缝线张力或打结力学。
+碰撞验证覆盖采样帧上的双臂、训练垫、桌面、间隔至少3节的UR外壳以及近端臂杆与驱动模块；相邻机构接触和内部装配干涉未作完整审计，不是动力学夹持验证。
