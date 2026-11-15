@@ -36,4 +36,3 @@ Windows PowerShell 设置端口示例：`$env:COPPELIA_ZMQ_PORT="23000"`。
 原始帧默认保存在 `work/continuous_suture/raw_frames/` 和 `stereo_frames/`，不纳入 Git。全景约需 28 GB，双目约需 21 GB，程序额外要求保留 10 GiB 空间。可用 `SUTURE_FRAMES_DIR`、`SUTURE_STEREO_FRAMES_DIR` 指定其他目录；`SUTURE_STAGE_DIR` 指定场景临时目录。
 
 `plan_continuous.py --count 5 --spacing-mm 3` 用于重新规划。修改参数后应在场景副本中运行 `prepare.py` 和 `validate.py`，再完整实跑检查。已有场景及报告对应的是本仓库交付的 **5×3 mm** 方案，不能直接用于声明其他参数已验证。
-
