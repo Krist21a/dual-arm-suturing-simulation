@@ -1,69 +1,145 @@
-# 双臂连续缝合仿真 / Dual-arm continuous suturing
+# 双臂连续缝合仿真
 
-默认演示现已更新为 **5 针、针距 3 mm 的普通连续缝合**。右臂圆弧入针、左臂接针拔出、回递给右臂，再沿切口前进至下一针。整段使用同一根针和连续保留的缝线，不在针间重设针位，不断线、不额外打结。
+**Dual-arm Continuous Suturing Simulation**
 
-## 演示视频
+我基于 CoppeliaSim、Python 和 MATLAB 搭建了这个双臂缝合仿真项目，将单针穿刺与双臂交接扩展为沿切口前进的连续缝合。当前版本可以在一次仿真中完成 **5 针、针距 3 mm** 的动作，并持续保留已经形成的缝线。
 
-[观看全景＋同步双目视频（MP4，2 分 47.9 秒）](docs/media/continuous_suture_5x3mm_overview_stereo.mp4) · [直接下载](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/media/continuous_suture_5x3mm_overview_stereo.mp4)
+我在实现中重点处理了三件事：让弯针沿自身圆弧穿过训练垫，让两只机械臂在交接时保持针位连续，以及让上一针的结束状态自然衔接到下一针。
 
-[纯固定全景原始录像](docs/media/continuous_suture_5x3mm_overview.mp4)
+<p align="center">
+  <strong>5 针连续缝合 · 3 mm 针距 · 10 次双臂交接 · 3,346 帧实跑检查</strong>
+</p>
 
-![全景上方中央并排显示左右双目相机画面](docs/media/continuous_suture_stereo_inset.png)
+[![项目演示：下方为固定全景，上方为同步的左右双目相机画面](docs/media/continuous_suture_stereo_inset.png)](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/media/continuous_suture_5x3mm_overview_stereo.mp4)
 
-两个双目小画面使用原相机位姿，按原比例显示，3,346 个动作帧与全景逐帧核对一致。视频为 1920×1440、20 fps，无变速。
+**[观看 / 下载全景＋双目演示](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/media/continuous_suture_5x3mm_overview_stereo.mp4)** · [纯固定全景录像](docs/media/continuous_suture_5x3mm_overview.mp4) · [运行指南](docs/RUNNING.md)
 
-## 快速运行
+*演示时长 2 分 47.9 秒，1920×1440、20 fps。上方两个画面分别来自原有左、右相机，与下方全景逐帧同步，播放速度保持不变。*
 
-验证环境为 CoppeliaSim Edu 4.10、Python 3.13；MATLAB 为可选入口。建议把仓库放在不含中文或空格的路径（例如 `D:/dual-arm-suturing-simulation`），避免部分 CoppeliaSim 文件接口的路径编码问题。
+## 我做了怎样的仿真场景
+
+我把两只机械臂布置在工作区两侧，让肩肘支撑在各自一侧，器械杆向前下方伸入缝合区域。训练垫固定在桌面上，左右双目相机保持固定位置，轨迹规划需要在这套布局下完成整个动作。
+
+在控制上，我保留了原有两片夹爪的几何、关节轴和开合配对，让末端腕部承担主要的穿刺与拔针运动，同时限制大臂在工作过程中的变化。这样可以同时观察到整机姿态、器械之间的空间关系和针在局部区域的运动。
+
+| 场景组成 | 我在项目中的安排 |
+| --- | --- |
+| 双臂分工 | 右臂持针入针，左臂接针拔出，再交回右臂 |
+| 弯针运动 | 使用拟合半径约 11.375 mm 的弯针，绕针圆心旋转穿刺 |
+| 训练垫与切口 | 训练垫固定，五针沿切口前进，首尾跨度 12 mm |
+| 夹持与交接 | 用跟随实际夹持姿态的坐标系挂接针，交接保持世界位姿连续 |
+| 观察方式 | 固定全景展示整机，双目视图展示针、器械末端和缝线 |
+
+## 从一针到连续五针
+
+我先完成了单针动作：右臂准备、圆弧入针、露针、左臂接针、拔针，再交回右臂。在扩展到多针时，我把这个过程组织成一段连续执行的状态机，让右臂从上一针的持针终态移动到下一针起点。
+
+每针之间不重新初始化仿真，也不重设针的世界位姿。已经形成的组织内线段继续保留，并与下一针连接；当前演示整段不断线，不额外打结。
+
+```mermaid
+flowchart LR
+    A[右臂圆弧入针并露针] --> B[左臂夹持与接针]
+    B --> C[左臂沿弧拔针]
+    C --> D[安全区回递给右臂]
+    D -->|还有下一针| E[右臂持针移至下一点]
+    E --> A
+    D -->|已完成五针| F[右臂持针，左臂撤离]
+```
+
+### 实际运行中的关键画面
+
+下面四张图均取自本次五针仿真的左相机原始帧，未裁切或添加标注。它们展示了我关注的局部动作，以及连续缝线最终保留下来的状态。
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/media/continuous_arc_insertion.png" alt="第一针完成圆弧穿刺，针沿竖直平面到达出针位置" width="100%"></td>
+    <td width="50%"><img src="docs/media/continuous_left_grasp.png" alt="左臂夹爪闭合接针，右臂仍保持交接位置" width="100%"></td>
+  </tr>
+  <tr>
+    <td><strong>① 圆弧入针</strong><br>我让针绕圆心旋转，并保持针平面与训练垫表面垂直。</td>
+    <td><strong>② 双臂接针</strong><br>左臂到位并闭合后再完成交接，针在世界坐标系中的位姿连续。</td>
+  </tr>
+  <tr>
+    <td><img src="docs/media/continuous_next_stitch.png" alt="右臂到达第二针入针位置，第一针的缝线仍保留" width="100%"></td>
+    <td><img src="docs/media/continuous_five_stitches.png" alt="五针结束后的连续缝线和右臂持针终态" width="100%"></td>
+  </tr>
+  <tr>
+    <td><strong>③ 进入下一针</strong><br>右臂带针沿切口前进 3 mm，上一针的缝线持续保留。</td>
+    <td><strong>④ 五针完成</strong><br>五段穿线及针间连接保留，终态为右臂持针、左臂张开撤离。</td>
+  </tr>
+</table>
+
+帧号、动作阶段和仿真时间记录在 [配图来源](docs/media/continuous_readme_frames.json) 中。
+
+## 我重点处理的几个问题
+
+**保持自然的肩肘布局。** 我将两臂的肩肘分支保留在工作区两侧，通过夹针位置、末端姿态与交接位置的配合完成任务。工作中的大臂变化与初始化时的姿态调整分别记录，避免把两个指标混在一起。
+
+**让弯针沿圆弧穿刺。** 入针到出针采用约 89.384° 的圆心旋转，随后继续露针，为左臂接针留出空间。针平面保持竖直，器械姿态需要适应这个约束。
+
+**处理连续交接与针间过渡。** 我将夹爪闭合、针的父坐标系切换、另一侧夹爪松开拆成明确的阶段，并检查交接前后的针位姿。多针之间延续右臂持针状态，已有缝线不会随下一针开始而被清除。
+
+**让执行过程可以复核。** 我记录每帧的实际关节位置、针位姿、碰撞结果以及训练垫和相机位姿；录制双目画面后，再与全景运行逐帧核对，确认画面对应同一动作状态。
+
+## 我如何验证结果
+
+下表对应当前 **5×3 mm** 方案的实际运行记录。碰撞结果指本场景、当前轨迹和所检查对象在采样帧上的检测结果。
+
+| 检查项目 | 本次结果 |
+| --- | --- |
+| 实跑检查帧数 | **3,346 帧** |
+| 双臂、训练垫、桌面及非相邻臂杆碰撞 | **未检测到碰撞** |
+| 双臂交接 / 针间过渡 | **10 次 / 4 次**，针位连续 |
+| 仿真时间推进 | 每帧 **0.05 s** |
+| 针平面最大偏离竖直 | 约 **0.00104°** |
+| 左 / 右大臂相对实际初始姿态最大变化 | 约 **2.35° / 3.19°** |
+| 关节行程 | joint7、joint8、joint9 均在允许范围内 |
+| 训练垫与原双目相机 | 位姿保持不变 |
+| 全景与双目动作帧核对 | **3,346 帧一致** |
+
+完整数据见 [验证摘要](output/reports/continuous_suture_validation_summary.txt)、[详细实跑报告](output/reports/continuous_suture_final_validation.json) 和 [双目同步报告](output/reports/continuous_suture_stereo_inset_validation.json)。发布版入口也重新完成了全部动作检查，见 [发布版实跑报告](output/reports/continuous_suture_github_runtime_validation.json)。
+
+此外，我保留了无需启动仿真器即可运行的回归测试，检查轨迹校验值、针距、运动学目标、关节限位和竖直圆弧入针：
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+## 在你的电脑上运行
+
+验证环境为 **CoppeliaSim Edu 4.10 + Python 3.13**，也提供 MATLAB 入口。建议使用不含中文或空格的仓库路径，以兼容部分仿真器文件接口。
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-1. 在 CoppeliaSim 打开 **`output/scenes/dual_DVRK_ARM_continuous_suture.ttt`**，保持仿真停止。
-2. 指定仿真器的 ZeroMQ 端口：程序默认 `23002`。若 CoppeliaSim 使用默认端口 `23000`，设置环境变量 `COPPELIA_ZMQ_PORT=23000`。
-3. 在仓库根目录执行：
+1. 在 CoppeliaSim 打开 `output/scenes/dual_DVRK_ARM_continuous_suture.ttt`，保持仿真停止。
+2. 将 `COPPELIA_ZMQ_PORT` 设置为仿真器实际端口。程序默认 `23002`；若仿真器使用 `23000`，需相应修改。
+3. 在仓库根目录运行：
 
 ```bash
 python work/continuous_suture/run_native.py
 ```
 
-Windows PowerShell 设置端口示例：`$env:COPPELIA_ZMQ_PORT="23000"`。
+使用 MATLAB 时，运行 `main_suture` 或 `main_continuous_suture`，它们会调用同一个 Python 执行器。Python 路径配置、视频录制、存储空间和参数修改步骤见 **[完整运行指南](docs/RUNNING.md)**。
 
-也可在 MATLAB 中运行 **`main_suture`** 或 `main_continuous_suture`。MATLAB 入口调用同一个 Python 执行器；用 `setenv('SUTURE_PYTHON','你的 python.exe 完整路径')` 选择已安装依赖的 Python，未指定时使用 MATLAB 的 Python 配置或 PATH 中的 `python`。不要求将 Python 加载进 MATLAB 进程。
+## 仓库结构
 
-程序校验轨迹 SHA-256 后，在一次仿真会话中完成全部五针，最后暂停在右臂持针、右爪闭合、左爪张开撤离的状态。再次运行前先停止仿真。场景已准备好，正常演示不需要运行构建或规划脚本。
+```text
+├── main_suture.m                    # 默认多针入口
+├── main_continuous_suture.m         # 多针 MATLAB 入口
+├── main_single_suture.m             # 单针对照入口
+├── work/continuous_suture/          # 多针规划、状态机、检查与录制
+├── output/scenes/                  # 多针场景与保留的单针场景
+├── output/reports/                 # 轨迹、实跑与视频验证记录
+├── docs/media/                     # 演示视频和真实仿真配图
+└── tests/                          # 无需仿真器的轨迹回归测试
+```
 
-## 录制与参数
+`work/suture_review/` 和 `work/scene_inspection/` 保留了单针基线与规划辅助代码，其中部分历史调试脚本仍带有原开发环境配置，不作为默认运行入口。
 
-纯全景录制：`python work/continuous_suture/run_native.py --record`，完成后运行 `python work/continuous_suture/export_video.py`。
+## 当前实现的范围
 
-双目补录：先运行 `python work/continuous_suture/prepare_stereo.py`，再运行 `python work/continuous_suture/run_stereo.py --record`，最后运行 `python work/continuous_suture/export_stereo_inset.py`。合成前会核对全景与双目两次运行的全部动作帧，帧位姿不一致时拒绝导出。完成后可运行 `python work/continuous_suture/finish_stereo.py` 移除临时录制对象。
+我将这一阶段的项目定位为**双臂连续缝合的运动学仿真**：执行规定的关节轨迹，开启网格碰撞检查，动力学求解关闭。缝线用于呈现连续穿线过程，尚未包含组织变形、线张力、力控制或打结力学。
 
-原始帧默认保存在 `work/continuous_suture/raw_frames/` 和 `stereo_frames/`，不纳入 Git。全景约需 28 GB，双目约需 21 GB，程序额外要求保留 10 GiB 空间。可用 `SUTURE_FRAMES_DIR`、`SUTURE_STEREO_FRAMES_DIR` 指定其他目录；`SUTURE_STAGE_DIR` 指定场景临时目录。
-
-`plan_continuous.py --count 5 --spacing-mm 3` 用于重新规划。修改参数后应在场景副本中运行 `prepare.py` 和 `validate.py`，再完整实跑检查。已有场景及报告对应的是本仓库交付的 **5×3 mm** 方案，不能直接用于声明其他参数已验证。
-
-## 已验证结果
-
-- 完整五针实跑检查 **3,346 帧**，检测到的双臂、桌面、训练垫及非相邻臂杆碰撞为 **0**。
-- 10 次交接位姿连续；4 次针间过渡不重置针或缝线。
-- 每帧仿真时间实际推进 0.05 秒，针平面最大偏离竖直约 **0.00104°**。
-- 左右大臂相对实际初始姿态最大变化约 **2.35° / 3.19°**。
-- joint7、joint8、joint9 均在允许范围内；训练垫和原双目相机位姿不变。
-- 两片夹爪保留原几何、关节轴及开合配对：`q10=yaw+grip`、`q11=-yaw+grip`。
-
-见 [验证摘要](output/reports/continuous_suture_validation_summary.txt)、[详细报告](output/reports/continuous_suture_final_validation.json)、[双目同步报告](output/reports/continuous_suture_stereo_inset_validation.json)。发布版入口也已在独立的无界面仿真实例中重新完成全部 3,346 帧检查，见 [发布版实跑报告](output/reports/continuous_suture_github_runtime_validation.json)。
-
-无需仿真器的轨迹回归测试：`python -m unittest discover -s tests -v`，检查轨迹校验值、针距、全轨迹运动学、关节限位及竖直圆弧入针。
-
-## 文件与模型范围
-
-- `main_suture.m`：默认多针入口。
-- `work/continuous_suture/`：多针规划、连续状态机、录制及合成代码。
-- `output/scenes/dual_DVRK_ARM_continuous_suture.ttt`：默认多针场景。
-- `docs/media/`：最新视频与预览。
-- `main_single_suture.m` 与 `output/scenes/dual_DVRK_ARM_suture.ttt`：保留的单针对照版本；使用独立入口。
-- `work/suture_review/`、`work/scene_inspection/`：单针基线及规划辅助代码；部分历史调试脚本保留原开发环境配置，不是默认运行入口。
-
-这是规定关节轨迹的**运动学仿真**，网格碰撞检查开启，动力学求解关闭。缝线为连续可视化曲线，不含组织变形、线张力、力控制或打结力学。多针副本停用了引用旧 Clip 对象和重复旧端口的遗留脚本，并避免历史关节插值器叠加动作；未修改夹爪几何或移动训练垫来迁就机器人。
+因此，这里的画面和数据说明的是当前仿真场景中的动作与几何约束。后续可以在这套连续状态机和验证记录的基础上，继续扩展缝线张力、组织模型和基于视觉的闭环控制；这些方向不计入当前已实现功能。
