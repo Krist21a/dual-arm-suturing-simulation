@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "commands": 80,
+  "stiffness_values": [
+    35,
+    70
+  ],
+  "maximum_tissue_difference_mm": 0.08336315093726086,
+  "precomputed_deformation_files_used": false
+}

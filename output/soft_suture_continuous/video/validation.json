@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "motion_frames": 3506,
+  "frames": 3546,
+  "fps": 20,
+  "duration_seconds": 177.3,
+  "resolution": [
+    1920,
+    1440
+  ],
+  "text_overlays": false,
+  "slow_motion": false,
+  "continuous_thread_from_frame_one": true,
+  "matched_jaw_grasp": true,
+  "camera_poses_unchanged": true,
+  "maximum_joint_error": 0,
+  "sha256": "d06a03b79def160ebbaecb54629094e75be9d9f0cdd3fbcf7a9b0c6a63dacd0b",
+  "bytes": 30934129
+}

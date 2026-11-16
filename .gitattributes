@@ -5,3 +5,18 @@
 *.png binary
 work/suture_review/wrist_plan.json -text
 work/continuous_suture/continuous_plan.json -text
+# Keep published evidence/source bytes identical to SHA256 manifests and ZIP.
+demo/** -text
+work/soft_suture/** -text
+work/suture_review/scene_live.json -text
+output/soft_suture/** -text
+output/soft_suture_continuous/** -text
+output/soft_suture_natural/** -text
+output/soft_suture_natural_3x/** -text
+output/reports/matlab_online* -text
+output/reports/online_material* -text
+README.md -text
+docs/RUNNING.md -text
+main_suture.m -text
+*.bin binary
+*.zip binary

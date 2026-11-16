@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "frames": 3506,
+  "punctures": 5,
+  "final_gap_mm": [
+    0.5195762073648864,
+    0.30000000000000165,
+    0.30000000000000165,
+    0.30000000000000165,
+    0.30000000000000165
+  ],
+  "no_pull_gap_mm": [
+    3.910051492499355,
+    3.9111320947216934,
+    3.911302041555008,
+    3.9111360770471526,
+    3.9107723620411816
+  ],
+  "final_tension_N": 0.42479788776600413,
+  "minimum_element_volume_ratio": 0.20472041479381953,
+  "maximum_element_volume_ratio": 1.5006286419043888,
+  "inverted_elements": 0,
+  "half_timestep_max_gap_difference_mm": 6.614840444485459e-05,
+  "half_timestep_tension_relative_difference": 1.4445187608953048e-05,
+  "blocked_puncture_peak_displacement_mm": 2.593598181318725,
+  "recovery_residual_mm": 8.804699889802337e-05,
+  "scope": "Reduced-order numerical model; parameters are not experimentally calibrated."
+}

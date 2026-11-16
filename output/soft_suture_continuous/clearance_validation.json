@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "tilt_deg": 30,
+  "maximum_weighted_pose_error": 2.969594746493609e-08,
+  "maximum_joint_step_deg": 1.6277602687949462,
+  "needle_and_tissue_unchanged": true
+}

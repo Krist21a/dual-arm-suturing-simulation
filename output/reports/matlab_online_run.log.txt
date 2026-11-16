@@ -1,0 +1,19 @@
+[警告: 已在静态 java 路径中指定 "DHFactor.jar"。] 
+[> 位置：javaclasspath>local_validate_dynamic_path (第 290 行)
+位置: javaclasspath>local_javapath (第 187 行)
+位置: javaclasspath (第 124 行)
+位置: javaaddpath (第 71 行)
+位置: RemoteAPIClient (第 37 行)
+位置: main_suture (第 10 行)] 
+100 / 1170: left_extract, tension 0.0000 N
+200 / 1170: next_stitch_right, tension 0.0000 N
+300 / 1170: left_prepare, tension 0.0000 N
+400 / 1170: right_regrasp, tension 0.0000 N
+500 / 1170: right_insert, tension 0.0000 N
+600 / 1170: left_extract, tension 0.0000 N
+700 / 1170: right_prepare, tension 0.0000 N
+800 / 1170: left_extract, tension 0.0000 N
+900 / 1170: next_stitch_right, tension 0.0000 N
+1000 / 1170: left_close, tension 0.0000 N
+1100 / 1170: left_retreat, tension 0.0000 N
+PASS: MATLAB issued 1170 commands; five online-computed stitches complete.

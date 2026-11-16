@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "frames": 3506,
+  "minimum_thread_vertices": 2,
+  "maximum_needle_eye_error_mm": 5.968820405320781e-05,
+  "maximum_thread_step_mm": 2.9554169489133755,
+  "initial_strand_present": true,
+  "all_frames_have_one_connected_strand": true,
+  "all_five_stitches_feed_progressively": true
+}
