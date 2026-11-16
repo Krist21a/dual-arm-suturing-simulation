@@ -43,7 +43,7 @@ MATLAB 会加载本包 `scene.ttt` 并执行 1170 条控制指令。结束后场
 完整实现与证据：https://github.com/Krist21a/dual-arm-suturing-simulation
 '''
 (D/'README.md').write_text(readme,encoding='utf-8')
-files=[p for p in D.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.png','.pyc'] and p.name not in ['online_metrics.json','SHA256SUMS.json']]
+files=[p for p in D.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.png','.pyc'] and p.name not in ['online_metrics.json','SHA256SUMS.json','package_validation.json']]
 digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 hashes={p.relative_to(D).as_posix():digest(p) for p in files};(D/'SHA256SUMS.json').write_text(json.dumps(hashes,indent=2))
 archive=ROOT/'output/packages/双臂缝合_三倍速_MATLAB在线仿真_最小包.zip'

@@ -137,7 +137,7 @@
   "work/soft_suture/playback.lua": "7140d9d9dc94895e3531e84b0bdcd00288f9e9f59e0d3700b47e4d7ce70eb759",
   "work/soft_suture/prepare_natural_3x.py": "fb1c4a6e345100647e279f32932616fbf505ac3d04f5b2c77654c2639836881a",
   "work/soft_suture/probe.py": "2777fb157c005171d159be986e2ccdb8f2ba13b36c3690c74d30df2003329a4a",
-  "work/soft_suture/publish_matlab_online.py": "9fa917796449a349ed458754f0d1bee2e4b04a6fd9998baaca20c65cff0d7b98",
+  "work/soft_suture/publish_matlab_online.py": "cc143a334067fea3ad218802cb9707f6b2f4e6de0f02c768e9f589c9d78f2a8f",
   "work/soft_suture/publish_natural.py": "2c7dd3f4fd862156b41952e580875f7998768ff9e40bc8b0dbb287248843cb92",
   "work/soft_suture/record_clean_video.py": "c7438873a398d3f5e0a497dd452194e536d2c3819b2051476b2a167310821d37",
   "work/soft_suture/record_video.py": "834cd19e5c1ed7327072f7c1314b70178f4f098f10bfcb38f88c2a28d86504ee",
