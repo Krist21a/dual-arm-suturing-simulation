@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "tested_while_simulation_stopped": true,
+  "initial_joint_error": 0.0,
+  "initial_thread_saved_as_shape": true,
+  "initial_tissue_saved_as_shape": true,
+  "scene_sha256": "8e3d834e9c633cf71b08648bc4b127da20cfe43b200f1597edf5d490a2e4f612"
+}

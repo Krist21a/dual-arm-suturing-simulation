@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 from build_scene import lua
 from trajectory import build_actions
+from bake_initial_state import bake
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 ROOT=Path(__file__).resolve().parents[2];out=ROOT/'output/delivery/matlab_suture_3x';out.mkdir(parents=True,exist_ok=True)
 for directory in ['physics','matlab','scene_code']:(out/directory).mkdir(exist_ok=True)
@@ -27,9 +28,10 @@ if s.getSimulationState()!=s.simulation_stopped:
  while s.getSimulationState()!=s.simulation_stopped:time.sleep(.1)
 stage=Path(tempfile.gettempdir())/'codex_soft_suture/online_build.ttt';shutil.copy2(ROOT/'output/scenes/dual_DVRK_ARM_soft_suture_natural_3x.ttt',stage);s.loadScene(stage.as_posix())
 old=s.getObject('/SoftSuturePlayback');s.removeObjects([old])
-code='config='+lua(dict(nodes=m['tissue_nodes'],faces=m['faces']))+'\n'+(ROOT/'work/soft_suture/online_scene.lua').read_text()
+code='config='+lua(dict(nodes=m['tissue_nodes'],faces=m['faces'],initial_q=commands[0]['q'],initial_needle=commands[0]['needle']))+'\n'+(ROOT/'work/soft_suture/online_scene.lua').read_text()
 h=s.createScript(s.scripttype_simulation,code,0,'lua');s.setObjectAlias(h,'OnlineSoftSuture')
 s.setFloatParam(s.floatparam_simulation_time_step,.05)
+bake(s,commands[0],m['faces'])
 s.saveScene(stage.as_posix());shutil.copy2(stage,out/'scene.ttt')
 for name,h in {'online_geometry.lua':h,'controller.lua':s.getObject('/customizableTable/SutureTask/SutureController'),'main.lua':s.getScript(s.scripttype_main)}.items():
  (out/'scene_code'/name).write_text(s.getScriptStringParam(h,s.scriptstringparam_text),encoding='utf-8')

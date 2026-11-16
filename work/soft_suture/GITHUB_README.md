@@ -4,6 +4,10 @@
 
 我把持针位置调整到了夹爪内侧约 3 mm，保留原夹爪几何与关节轴；缝线从第一条指令开始存在，随针移动，已经形成的线段持续保留。普通连续缝合整段不断线，不额外打结。
 
+我也将正确的初始关节、针姿态和缝线网格保存在 `scene.ttt` 中：直接打开、尚未运行时即可看到初始持针状态。在线求解开始后自动隐藏静态预览，改由实时结果更新；这些预览网格本身不参与原生柔体动力学。
+
+[未运行时的夹持特写](demo/matlab_suture_3x/scene_open_grasp.png) · [未运行时的初始缝线](demo/matlab_suture_3x/scene_open_overview.png) · [重新打开场景的校验](demo/matlab_suture_3x/initial_scene_validation.json)
+
 [![三倍速全景与双目参考视频](docs/media/natural_3x_preview.png)](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/media/soft_suture_natural_3x_clean.mp4)
 
 **[下载最小 MATLAB 在线仿真包](https://github.com/Krist21a/dual-arm-suturing-simulation/raw/refs/heads/main/docs/downloads/matlab_suture_3x_minimal.zip)** · [运行说明](demo/matlab_suture_3x/README.md) · [参考视频](docs/media/soft_suture_natural_3x_clean.mp4)

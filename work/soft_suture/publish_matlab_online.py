@@ -2,11 +2,14 @@
 import ast,hashlib,json,shutil,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];REPO=ROOT/'github_upload/dual-arm-suturing-simulation';D=ROOT/'output/delivery/matlab_suture_3x'
-for name in ['matlab_online_validation.json','material_response_validation.json']:
+for name in ['matlab_online_validation.json','material_response_validation.json','initial_scene_validation.json']:
  assert json.loads((D/name).read_text())['result']=='PASS'
+assert (D/'matlab_online_validation.json').stat().st_mtime>=(D/'scene.ttt').stat().st_mtime
 readme='''# MATLAB 双臂连续缝合在线仿真
 
 我将双臂五针、3 mm 针距的缝合做成了 MATLAB 控制的在线仿真：MATLAB 逐步发送双臂关节和针的目标，CoppeliaSim 执行动作，Python 物理求解器根据本次指令计算组织变形与缝线。场景没有预存帧播放器，也没有嵌入垫子或缝线的运动结果。
+
+场景初态已修正：直接打开 `scene.ttt`，未运行时也能看到夹爪内侧持针与初始缝线网格。开始在线求解后，静态预览网格隐藏，由实时几何接管；停止后恢复预览。初始网格用于显示，不代表 CoppeliaSim 原生柔体或绳索动力学。
 
 ## 运行环境
 
@@ -46,7 +49,7 @@ MATLAB 会加载本包 `scene.ttt` 并执行 1170 条控制指令。结束后场
 files=[p for p in D.rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix not in ['.png','.pyc'] and p.name not in ['online_metrics.json','SHA256SUMS.json','package_validation.json']]
 digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 hashes={p.relative_to(D).as_posix():digest(p) for p in files};(D/'SHA256SUMS.json').write_text(json.dumps(hashes,indent=2))
-archive=ROOT/'output/packages/双臂缝合_三倍速_MATLAB在线仿真_最小包.zip'
+archive=ROOT/'output/packages/双臂缝合_三倍速_MATLAB在线仿真_场景初态修正版.zip'
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  for p in files+[D/'SHA256SUMS.json']:z.write(p,'matlab_suture_3x/'+p.relative_to(D).as_posix())
 with zipfile.ZipFile(archive) as z:

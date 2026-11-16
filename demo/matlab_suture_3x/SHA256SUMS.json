@@ -1,11 +1,12 @@
 {
   "commands.json": "520c9d7aab87e09bc51bee3e0d1ed1a5719b905c483de48f9139f5ee727f88ef",
+  "initial_scene_validation.json": "65ee14db5507ac699ffa997bfb745aecbac7d1b2a74673f4995d5052b8b2fb18",
   "main_suture.m": "3629f75b47ef5336dbea5e64507ccd69c4763bab0e94676132deac465fd3c9b1",
   "material_response_validation.json": "c1cc43b2c70f0f8e336134d58b42a9bb14d4c9a7a8766a5011df4eb20758954f",
-  "matlab_online_validation.json": "c7500c45de7364402b37749ff3d7e3850c57123c35840200fe20456a7d277274",
-  "README.md": "ab7b8bbb1713b4a57b0c185bd1281d0b7fed0ab6ed5298d535f1b7a6ab824610",
+  "matlab_online_validation.json": "645a1a57409cf7792de07e280470b3f07106e27e9d00b7b282061ea5991f5cbe",
+  "README.md": "a53d59a4b6a8054086e58bc759f14c5f63533a1bcbadb8ef5a2795181bde45ec",
   "reference_video.mp4": "c0b1c7db0d8b734e77482fd8c7ad94b4723573ebc45f67eb27f4317dd6b551ad",
-  "scene.ttt": "cc0c424893a7cee8574cf8ff584f9e9240033b48d9cd5638197a80b2a0bb1361",
+  "scene.ttt": "8e3d834e9c633cf71b08648bc4b127da20cfe43b200f1597edf5d490a2e4f612",
   "matlab/cbor.m": "9deae9430d50cc5e9bd08b93965b0d6da5dacb167856be5ed549ff13da67591b",
   "matlab/jeromq-0.5.2.jar": "8c19e7148bee907597129b2fd706839c45db849c72a25285ec1674f0ffdabf8e",
   "matlab/RemoteAPIClient.m": "688d5a526fec05377508f6b3fe21e4b6271add440f77ac5b9aa11b292fad1e87",
@@ -16,5 +17,5 @@
   "physics/requirements.txt": "90f21d9841a69675aee09d37571cdf10412488c58345a5101c14b9fe94a418bb",
   "scene_code/controller.lua": "ca5f0313c72ed1ee949237ed80b768a982cdca9e9b3bfdb4fb7d34d8b07ce656",
   "scene_code/main.lua": "004775375470422aec6f672b3cc8718d9c6d8ebe648e87804f262b44fac930be",
-  "scene_code/online_geometry.lua": "3afe038b5a314356b71c542283dbab8277d65f371a78f800c3d52edc3c0b8a2f"
+  "scene_code/online_geometry.lua": "cfc84fabf4d20f7a764d96f84a3d498286433a0081c58d95e6d6da284c9393e2"
 }
